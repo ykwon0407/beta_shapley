@@ -158,11 +158,11 @@ class ShapEngine(object):
         else:
             raise NotImplementedError("Check problem")
 
-    def run(self, lld_run=True, knn_run=True, weights_list=None):
+    def run(self, loo_run=True, knn_run=False, weights_list=None):
         """
         Calculates data sources(points) values.
         Args:
-            lld_run: If True, computes and saves log-likelihood difference scores.
+            loo_run: If True, computes and saves leave-one-out (LOO) scores.
             knn_run: If True, computes and saves KNN-Shapley.
             weights_list: Computes and saves Beta Shapley values.
         """
@@ -189,19 +189,18 @@ class ShapEngine(object):
                         self.weight_list[self.min_cardinality]=1
                     self._compute_beta_shap_from_MC(model_name=model_name)
 
-        if lld_run is True and self.metric != 'prediction':
-            self._calculate_lld()
+        if loo_run is True and self.metric != 'prediction':
+            self._calculate_loo()
 
         if knn_run is True:
             self._calculate_knn(n_neighbors=10)
     
-    def _calculate_lld(self):
+    def _calculate_loo(self):
         """
         Calculate the log-likelihood difference. (Or Leave-one-out)
         For regression, we assume the homogeneous error setting
         (i.e. variance is same across data points)
         """
-        print('Start: Log-likelihood difference score calculation!')
         time_init=time.time()
         self.model.fit(self.X, self.y)
         baseline_value=self.value()
@@ -214,14 +213,12 @@ class ShapEngine(object):
             vals_lld[i]=(baseline_value - removed_value)
         self.results['LOO-Last']=vals_lld
         self.time_results['LOO-Last']=time.time()-time_init
-        print('Done: Log-likelihood difference score calculation!',flush=True)
 
     def _calculate_knn(self, n_neighbors=10):
         """
         Calculate the KNN-SHAP.
         from https://github.com/AI-secure/Shapley-Study/blob/master/shapley/measures/KNN_Shapley.py
         """
-        print('Start: KNN-SHAP score calculation!')
         time_init=time.time()
         n_val=len(self.X_val)
         knn_mat=np.zeros((self.n_sources, n_val))
@@ -238,7 +235,6 @@ class ShapEngine(object):
                 cur -= 1 
         self.results['KNN']=np.mean(knn_mat, axis=1)
         self.time_results['KNN']=time.time()-time_init
-        print('Done: KNN-SHAP score calculation!',flush=True)
 
     def _calculate_marginal_contributions(self, model_name='model_name'):
         """
@@ -264,7 +260,6 @@ class ShapEngine(object):
         self.GR_results[f'Beta({model_name})']=self.prob_GR_dict
         self.MC_obs_card_mat=self.prob_marginal_contrib
         self.MC_count_obs_card_mat=self.prob_marginal_contrib_count
-        print(f'The total/max iterations: {(100*iters)}/{(100*100*self.max_iters)}',flush=True)
         print(f'Done: Marginal Contribution Calculation! ', flush=True)
 
     def _compute_beta_shap_from_MC(self, model_name='model_name'):

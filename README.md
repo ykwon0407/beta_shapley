@@ -1,23 +1,17 @@
-# Beta Shapley: a Unified and Noise-reduced Data Valuation Framework for Machine Learning
+## Beta Shapley: a Unified and Noise-reduced Data Valuation Framework for Machine Learning
 
-This repository is for AISTATS 2022 anonymous review. We provide key python codes used in the submission 'Beta Shapley: a Unified and Noise-reduced Data Valuation Framework for Machine Learning'. 
+This repository provides an implementation of the paper [Beta Shapley: a Unified and Noise-reduced Data Valuation Framework for Machine Learning](https://arxiv.org/abs/2110.14049) accepted at [AISTATS 2022](https://aistats.org/aistats2022). We propose a **noise-reduced data valuation method, Beta Shapley**, which is a substantial generalization of Data Shapley. Beta Shapley outperforms state-of-the-art data valuation methods on several downstream ML tasks such as: 1) detecting mislabeled training data; 2) learning with subsamples; and 3) identifying points whose addition or removal have the largest positive or negative impact on the model.
 
-### Files
+<img src="./fig/beta_shapley_cifar100.png" width="600">
 
-`src/run_check_condition.py`: runs the experiments for Figure 1.
+## Quick start
 
-`src/run_experiment.py`: runs the experiments in Figure 2 and Section 5.
+We provide a notebook using the [Covertype dataset](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_covtype.html). It shows how to compute the Beta Shapley value and its application on several downstream ML tasks.
 
-`src/ShapEngine.py`: defines the main function for Beta-Shapley value.
+## Files
 
-`src/config.py`: handles experiment settings. One configuration is defined for each dataset and model.
+`betashap/ShapEngine.py`: main class for computing Beta-Shapley.
 
-`src/data.py`: handles loading and preprocessing datasets.
+`betashap/data.py`: handles loading and preprocessing datasets.
 
-### Quick start
 
-`python3 {path}/src/launcher.py run -e 001CL --run-id 0` will run an experiment with the Gaussian dataset using a logistic model
-
-`python3 {path}/src/launcher.py run -e 003CL --run-id 0` will run an experiment with the Gaussian dataset using a support vector machine model
-
-`python3 {path}/src/run_check_condition.py --problem classification --rid 0` will run an experiment in Figure 1.
