@@ -1,6 +1,6 @@
 ## Beta Shapley: a Unified and Noise-reduced Data Valuation Framework for Machine Learning
 
-This repository provides an implementation of the paper [Beta Shapley: a Unified and Noise-reduced Data Valuation Framework for Machine Learning](https://arxiv.org/abs/2110.14049) accepted at [AISTATS 2022](https://aistats.org/aistats2022). We propose a noise-reduced data valuation method, Beta Shapley, which is **powerful at capturing the importance of data points**.
+This repository provides an implementation of the paper [Beta Shapley: a Unified and Noise-reduced Data Valuation Framework for Machine Learning](https://arxiv.org/abs/2110.14049) accepted at [AISTATS 2022](https://aistats.org/aistats2022) as oral presentation. We propose a noise-reduced data valuation method, Beta Shapley, which is **powerful at capturing the importance of data points**.
 
 ## Quick start
 
