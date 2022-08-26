@@ -40,7 +40,7 @@ def load_data(problem, dataset, **dargs):
 
         # validation is also flipped
         flipped_val_index=np.random.choice(np.arange(n_val), n_val//10, replace=False) 
-        y_val[flipped_index]=(1 - y_val[flipped_val_index])
+        y_val[flipped_val_index]=(1 - y_val[flipped_val_index])
         return (X, y), (X_val, y_val), (X_test, y_test), flipped_index
     else:
         raise NotImplementedError('Check problem')
