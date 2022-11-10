@@ -58,10 +58,6 @@ def load_classification_dataset(n_data_to_be_valued=200,
     n_val: the number of data points for evaluation of the utility function.
     n_test: the number of data points for evaluation of performances in point addition experiments.
     clf_path: path to classification datasets.
-
-    You may need to prepare datasets first. Please run 'prep_non_reg_data.py' first.
-    As for the datasets 'cifar10', 'fashion' and 'mnist', 
-    we extract features from trained weights using 'torchvision.models.resnet18(pretrained=True)'.
     '''
     if dataset == 'gaussian':
         print('-'*50)
@@ -83,10 +79,9 @@ def load_classification_dataset(n_data_to_be_valued=200,
         data, target=make_balance_sample(data, target)
     else:
         assert False, f"Check {dataset}"
-
-    if dataset not in ['cifar100_test']:
-        idxs=np.random.permutation(len(data))
-        data, target=data[idxs], target[idxs]
+        
+    idxs=np.random.permutation(len(data))
+    data, target=data[idxs], target[idxs]
 
     X=data[:n_data_to_be_valued]
     y=target[:n_data_to_be_valued]
